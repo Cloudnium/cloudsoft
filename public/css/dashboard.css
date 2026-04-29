@@ -189,3 +189,322 @@
   padding: 6px 12px;
   font-size: var(--font-size-xs);
 }
+
+/* ============================================================
+   SECCIÓN USUARIOS — Estilos de Gestión de Usuarios
+   ============================================================ */
+
+/* ── Encabezado ─────────────────────────────────────────── */
+.usuarios-page { padding: 4px 0; }
+
+.usuarios-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.usuarios-title {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.usuarios-title i { color: var(--color-primary); }
+
+.usuarios-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* ── Celda de usuario con avatar inicial ────────────────── */
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-avatar-mini {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+.user-nombre {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.user-username {
+  font-size: var(--font-size-sm);
+  color: var(--color-primary);
+  font-weight: 600;
+  font-family: monospace;
+}
+
+.text-muted-cell {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+/* ── Badge de rol ───────────────────────────────────────── */
+.badge-rol {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.badge-rol--admin    { background: #ede9ff; color: var(--color-primary); }
+.badge-rol--operador { background: #dbeafe; color: #1e40af; }
+.badge-rol--consulta { background: #f3f4f6; color: #6b7280; }
+
+/* ── Botones de acciones en tabla ───────────────────────── */
+.acciones-grupo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: nowrap;
+}
+
+.btn-accion {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.btn-accion--edit {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+.btn-accion--edit:hover { background: var(--color-primary); color: white; }
+
+.btn-accion--warn {
+  background: #fff3cd;
+  color: #856404;
+}
+.btn-accion--warn:hover { background: #ffb347; color: white; }
+
+.btn-accion--success {
+  background: #d1fae5;
+  color: #065f46;
+}
+.btn-accion--success:hover { background: var(--color-success); color: white; }
+
+.btn-accion--danger {
+  background: #ffe4e6;
+  color: var(--color-danger);
+}
+.btn-accion--danger:hover { background: var(--color-danger); color: white; }
+
+/* ── Footer de la tabla ─────────────────────────────────── */
+.table-footer {
+  padding: 12px 16px;
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-color);
+}
+
+/* ── Fila vacía ─────────────────────────────────────────── */
+.table-empty {
+  text-align: center;
+  padding: 48px 16px !important;
+  color: var(--text-muted);
+}
+
+.table-empty i {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 8px;
+  color: var(--color-primary-light);
+}
+
+/* ============================================================
+   MODALES — Crear / Editar usuarios
+   ============================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(30,27,75,0.55);
+  backdrop-filter: blur(3px);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay.active {
+  display: flex;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal {
+  background: var(--bg-card);
+  border-radius: var(--border-radius-lg);
+  width: 100%;
+  max-width: 600px;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp 0.25s ease;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h3 {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-header h3 i { color: var(--color-primary); }
+
+.modal-close {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  transition: background var(--transition), color var(--transition);
+  cursor: pointer;
+  border: none;
+}
+
+.modal-close:hover {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+/* ── Formulario del modal ───────────────────────────────── */
+.modal-form {
+  padding: 20px 24px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 0;
+}
+
+.form-label {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-hint {
+  font-weight: 400;
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.form-input {
+  padding: 10px 13px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  background: #fafafa;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  outline: none;
+  width: 100%;
+}
+
+.form-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(108,71,255,0.12);
+  background: #fff;
+}
+
+/* Input con botón ojo para contraseña */
+.input-eye-wrap {
+  position: relative;
+}
+
+.input-eye-wrap .form-input {
+  padding-right: 40px;
+}
+
+.input-eye {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  background: none;
+  transition: color var(--transition);
+}
+
+.input-eye:hover { color: var(--color-primary); }
+
+/* ── Footer del modal ───────────────────────────────────── */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+/* ── Animaciones ────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Responsive modales */
+@media (max-width: 600px) {
+  .form-row { grid-template-columns: 1fr; }
+  .acciones-grupo { flex-wrap: wrap; }
+  .modal { border-radius: var(--border-radius); }
+}

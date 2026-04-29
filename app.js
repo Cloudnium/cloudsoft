@@ -4,7 +4,7 @@
 
 const path = require('path');
 
-// Cargar .env PRIMERO con ruta absoluta (evita problemas con dotenv extensions)
+// Cargar .env con ruta absoluta ANTES de cualquier otro require
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 const express = require('express');
@@ -14,21 +14,44 @@ const flash   = require('connect-flash');
 
 const app = express();
 
-// Motor de plantillas Handlebars
+// ─────────────────────────────────────────────
+// MOTOR DE PLANTILLAS: Handlebars + Helpers
+// ─────────────────────────────────────────────
 app.engine('hbs', exphbs.engine({
   extname: '.hbs',
   defaultLayout: 'main',
   layoutsDir:   path.join(__dirname, 'views/layouts'),
   partialsDir:  path.join(__dirname, 'views/partials'),
   helpers: {
-    eq:          (a, b) => a === b,
+    // Comparar igualdad (para menú activo)
+    eq: (a, b) => a === b,
+
+    // Año actual para footer
     currentYear: () => new Date().getFullYear(),
+
+    // Primera letra del nombre para avatar
+    avatarLetra: (nombre) => {
+      if (!nombre) return '?';
+      return nombre.charAt(0).toUpperCase();
+    },
+
+    // Etiqueta legible del rol
+    rolLabel: (rol) => {
+      const roles = {
+        admin:    'Administrador',
+        operador: 'Operador',
+        consulta: 'Solo Consulta',
+      };
+      return roles[rol] || rol || 'Sin rol';
+    },
   }
 }));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Middlewares
+// ─────────────────────────────────────────────
+// MIDDLEWARES
+// ─────────────────────────────────────────────
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -52,7 +75,9 @@ app.use((req, res, next) => {
   next();
 });
 
-// Rutas
+// ─────────────────────────────────────────────
+// RUTAS
+// ─────────────────────────────────────────────
 app.use('/',              require('./routes/auth'));
 app.use('/dashboard',     require('./routes/dashboard'));
 app.use('/tabla',         require('./routes/tabla'));
@@ -67,7 +92,9 @@ app.use((req, res) => {
   res.status(404).render('404', { layout: false, title: '404 - No encontrado' });
 });
 
-// Iniciar servidor
+// ─────────────────────────────────────────────
+// INICIO DEL SERVIDOR
+// ─────────────────────────────────────────────
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log('✅ CLOUDSOFT corriendo en http://localhost:' + PORT);
