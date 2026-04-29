@@ -1,0 +1,128 @@
+<!-- ============================================================
+     views/login.hbs — Pantalla de inicio de sesión
+     Login SOLO por username + contraseña (sin correo)
+     ============================================================ -->
+
+<div class="login-page">
+
+  <!-- PANEL IZQUIERDO: Formulario -->
+  <div class="login-panel">
+
+    <!-- Logo: reemplaza /images/logo.png con tu logo -->
+    <div class="login-brand">
+      <img
+        src="/images/logo.png"
+        alt="Logo CLOUDSOFT"
+        class="login-logo"
+        onerror="this.style.display='none'"
+      />
+      <div class="login-brand-text">
+        <h1 class="login-company">CLOUDSOFT</h1>
+        <p class="login-slogan">Tu control, nuestro compromiso</p>
+      </div>
+    </div>
+
+    <!-- Mensajes de error/éxito -->
+    {{#if error_msg}}
+      <div class="login-alert login-alert--error">
+        <i class="ri-error-warning-line"></i> {{error_msg}}
+      </div>
+    {{/if}}
+    {{#if success_msg}}
+      <div class="login-alert login-alert--success">
+        <i class="ri-checkbox-circle-line"></i> {{success_msg}}
+      </div>
+    {{/if}}
+
+    <div class="login-form-title">Iniciar Sesión</div>
+
+    <form action="/login" method="POST" class="login-form">
+
+      <!-- Campo: solo USERNAME (no correo) -->
+      <div class="login-field">
+        <label class="login-label" for="usuario">
+          <i class="ri-user-line"></i> Usuario
+        </label>
+        <input
+          type="text"
+          id="usuario"
+          name="usuario"
+          class="login-input"
+          placeholder="Tu nombre de usuario"
+          required
+          autocomplete="username"
+          autofocus
+        />
+      </div>
+
+      <!-- Campo: Contraseña -->
+      <div class="login-field">
+        <label class="login-label" for="password">
+          <i class="ri-lock-line"></i> Contraseña
+        </label>
+        <div class="login-input-wrap">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="login-input"
+            placeholder="Tu contraseña"
+            required
+            autocomplete="current-password"
+          />
+          <button type="button" class="login-eye" id="togglePass" aria-label="Ver contraseña">
+            <i class="ri-eye-off-line" id="eyeIcon"></i>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="login-btn">
+        <i class="ri-login-circle-line"></i> Iniciar Sesión
+      </button>
+
+    </form>
+
+    <p class="login-footer">© {{currentYear}} Cloudnium. Todos los derechos reservados.</p>
+
+  </div>
+
+  <!-- PANEL DERECHO: Slider automático de imágenes -->
+  <div class="login-slider" id="loginSlider">
+
+    <!-- Slide 1: cambia data-bg por la ruta de tu imagen -->
+    <div class="slide active" data-bg="/images/slides/slide1.png">
+      <div class="slide-overlay"></div>
+      <div class="slide-content">
+        <div class="slide-badge">Control Total</div>
+        <h2 class="slide-title">Gestiona tu empresa desde un solo lugar</h2>
+        <p class="slide-desc">CLOUDSOFT integra todas las áreas de tu negocio en una plataforma segura, veloz y fácil de usar.</p>
+      </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="slide" data-bg="/images/slides/slide2.png">
+      <div class="slide-overlay"></div>
+      <div class="slide-content">
+        <div class="slide-badge">Reportes en tiempo real</div>
+        <h2 class="slide-title">Decisiones basadas en datos precisos</h2>
+        <p class="slide-desc">Genera reportes automáticos, consulta movimientos y monitorea tu operación en tiempo real.</p>
+      </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="slide" data-bg="/images/slides/slide3.jpg">
+      <div class="slide-overlay"></div>
+      <div class="slide-content">
+        <div class="slide-badge">Seguridad garantizada</div>
+        <h2 class="slide-title">Tu información protegida siempre</h2>
+        <p class="slide-desc">Acceso por roles, auditoría de actividad y respaldo en la nube con Supabase.</p>
+      </div>
+    </div>
+
+    <div class="slider-dots" id="sliderDots"></div>
+    <button class="slider-btn slider-btn--prev" id="slidePrev"><i class="ri-arrow-left-s-line"></i></button>
+    <button class="slider-btn slider-btn--next" id="slideNext"><i class="ri-arrow-right-s-line"></i></button>
+
+  </div>
+
+</div>

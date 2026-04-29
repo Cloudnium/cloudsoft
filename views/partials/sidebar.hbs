@@ -1,0 +1,154 @@
+<!-- ============================================================
+     partials/sidebar.hbs — Barra lateral de navegación
+     Cada sección tiene sub-opciones que se despliegan al hacer clic
+     Para cambiar íconos: modificar la clase "ri-XXX" (Remixicon)
+     ============================================================ -->
+
+<aside class="sidebar" id="sidebar">
+
+  <!-- ── LOGO DE LA EMPRESA ──────────────────────────
+       Para cambiar el logo:
+         1. Reemplaza /images/logo.png con tu imagen
+         2. O cambia el texto "CLOUDSOFT" abajo
+  ─────────────────────────────────────────────────── -->
+  <div class="sidebar__brand">
+    <img
+      src="/images/logo.png"
+      alt="Logo CLOUDSOFT"
+      class="sidebar__logo"
+      onerror="this.style.display='none'"
+    />
+    <div class="sidebar__brand-text">
+      <span class="sidebar__brand-name">CLOUDSOFT</span>
+      <span class="sidebar__brand-sub">Sistema Interno</span>
+    </div>
+  </div>
+
+  <!-- ── NAVEGACIÓN PRINCIPAL ──────────────────────── -->
+  <nav class="sidebar__nav">
+
+    <!-- Dashboard (enlace directo, sin sub-menú) -->
+    <a href="/dashboard" class="sidebar__item {{#if (eq activeMenu 'dashboard')}}sidebar__item--active{{/if}}">
+      <i class="ri-dashboard-3-line sidebar__icon"></i>
+      <span>Dashboard</span>
+    </a>
+
+    <!-- ─────────────────────────────────────────────
+         TABLA — con sub-opciones desplegables
+         Agrega / quita <li> para más opciones
+    ───────────────────────────────────────────────── -->
+    <div class="sidebar__group {{#if (eq activeMenu 'tabla')}}sidebar__group--open{{/if}}">
+      <button class="sidebar__item sidebar__toggle" data-target="menu-tabla">
+        <i class="ri-table-2 sidebar__icon"></i>
+        <span>Tabla</span>
+        <i class="ri-arrow-down-s-line sidebar__arrow"></i>
+      </button>
+      <ul class="sidebar__submenu" id="menu-tabla">
+        <li><a href="/tabla/opcion1" class="sidebar__subitem"><i class="ri-circle-line"></i> Opción 1</a></li>
+        <li><a href="/tabla/opcion2" class="sidebar__subitem"><i class="ri-circle-line"></i> Opción 2</a></li>
+        <li><a href="/tabla/opcion3" class="sidebar__subitem"><i class="ri-circle-line"></i> Opción 3</a></li>
+      </ul>
+    </div>
+
+    <!-- ─────────────────────────────────────────────
+         MOVIMIENTOS
+    ───────────────────────────────────────────────── -->
+    <div class="sidebar__group {{#if (eq activeMenu 'movimientos')}}sidebar__group--open{{/if}}">
+      <button class="sidebar__item sidebar__toggle" data-target="menu-movimientos">
+        <i class="ri-swap-box-line sidebar__icon"></i>
+        <span>Movimientos</span>
+        <i class="ri-arrow-down-s-line sidebar__arrow"></i>
+      </button>
+      <ul class="sidebar__submenu" id="menu-movimientos">
+        <li><a href="/movimientos/ingresos"  class="sidebar__subitem"><i class="ri-circle-line"></i> Ingresos</a></li>
+        <li><a href="/movimientos/egresos"   class="sidebar__subitem"><i class="ri-circle-line"></i> Egresos</a></li>
+        <li><a href="/movimientos/historial" class="sidebar__subitem"><i class="ri-circle-line"></i> Historial</a></li>
+      </ul>
+    </div>
+
+    <!-- ─────────────────────────────────────────────
+         CONSULTAS
+    ───────────────────────────────────────────────── -->
+    <div class="sidebar__group {{#if (eq activeMenu 'consultas')}}sidebar__group--open{{/if}}">
+      <button class="sidebar__item sidebar__toggle" data-target="menu-consultas">
+        <i class="ri-search-eye-line sidebar__icon"></i>
+        <span>Consultas</span>
+        <i class="ri-arrow-down-s-line sidebar__arrow"></i>
+      </button>
+      <ul class="sidebar__submenu" id="menu-consultas">
+        <li><a href="/consultas/general"   class="sidebar__subitem"><i class="ri-circle-line"></i> Consulta General</a></li>
+        <li><a href="/consultas/avanzada"  class="sidebar__subitem"><i class="ri-circle-line"></i> Consulta Avanzada</a></li>
+        <li><a href="/consultas/saldos"    class="sidebar__subitem"><i class="ri-circle-line"></i> Saldos</a></li>
+      </ul>
+    </div>
+
+    <!-- ─────────────────────────────────────────────
+         LIQUIDACIONES
+    ───────────────────────────────────────────────── -->
+    <div class="sidebar__group {{#if (eq activeMenu 'liquidaciones')}}sidebar__group--open{{/if}}">
+      <button class="sidebar__item sidebar__toggle" data-target="menu-liquidaciones">
+        <i class="ri-money-dollar-circle-line sidebar__icon"></i>
+        <span>Liquidaciones</span>
+        <i class="ri-arrow-down-s-line sidebar__arrow"></i>
+      </button>
+      <ul class="sidebar__submenu" id="menu-liquidaciones">
+        <li><a href="/liquidaciones/nueva"     class="sidebar__subitem"><i class="ri-circle-line"></i> Nueva</a></li>
+        <li><a href="/liquidaciones/pendientes" class="sidebar__subitem"><i class="ri-circle-line"></i> Pendientes</a></li>
+        <li><a href="/liquidaciones/aprobadas" class="sidebar__subitem"><i class="ri-circle-line"></i> Aprobadas</a></li>
+      </ul>
+    </div>
+
+    <!-- ─────────────────────────────────────────────
+         REPORTES
+    ───────────────────────────────────────────────── -->
+    <div class="sidebar__group {{#if (eq activeMenu 'reportes')}}sidebar__group--open{{/if}}">
+      <button class="sidebar__item sidebar__toggle" data-target="menu-reportes">
+        <i class="ri-bar-chart-box-line sidebar__icon"></i>
+        <span>Reportes</span>
+        <i class="ri-arrow-down-s-line sidebar__arrow"></i>
+      </button>
+      <ul class="sidebar__submenu" id="menu-reportes">
+        <li><a href="/reportes/diario"   class="sidebar__subitem"><i class="ri-circle-line"></i> Diario</a></li>
+        <li><a href="/reportes/mensual"  class="sidebar__subitem"><i class="ri-circle-line"></i> Mensual</a></li>
+        <li><a href="/reportes/anual"    class="sidebar__subitem"><i class="ri-circle-line"></i> Anual</a></li>
+        <li><a href="/reportes/exportar" class="sidebar__subitem"><i class="ri-circle-line"></i> Exportar</a></li>
+      </ul>
+    </div>
+
+    <!-- ─────────────────────────────────────────────
+         UTILITARIOS
+    ───────────────────────────────────────────────── -->
+    <div class="sidebar__group {{#if (eq activeMenu 'utilitarios')}}sidebar__group--open{{/if}}">
+      <button class="sidebar__item sidebar__toggle" data-target="menu-utilitarios">
+        <i class="ri-tools-line sidebar__icon"></i>
+        <span>Utilitarios</span>
+        <i class="ri-arrow-down-s-line sidebar__arrow"></i>
+      </button>
+      <ul class="sidebar__submenu" id="menu-utilitarios">
+        <li><a href="/utilitarios/usuarios"    class="sidebar__subitem"><i class="ri-circle-line"></i> Usuarios</a></li>
+        <li><a href="/utilitarios/configuracion" class="sidebar__subitem"><i class="ri-circle-line"></i> Configuración</a></li>
+        <li><a href="/utilitarios/backup"      class="sidebar__subitem"><i class="ri-circle-line"></i> Backup</a></li>
+      </ul>
+    </div>
+
+  </nav><!-- /sidebar__nav -->
+
+  <!-- ── USUARIO EN SIDEBAR (parte inferior) ─────── -->
+  <div class="sidebar__user">
+    <!-- Avatar del usuario: cambiar /images/avatar-default.png -->
+    <img
+      src="{{#if user.avatar}}{{user.avatar}}{{else}}/images/avatar-default.gif{{/if}}"
+      alt="Avatar"
+      class="sidebar__avatar"
+      onerror="this.src='/images/avatar-default.gif'"
+    />
+    <div class="sidebar__user-info">
+      <span class="sidebar__user-name">{{user.nombre}}</span>
+      <span class="sidebar__user-role">{{user.rol}}</span>
+    </div>
+    <a href="/logout" class="sidebar__logout" title="Cerrar sesión">
+      <i class="ri-logout-box-r-line"></i>
+    </a>
+  </div>
+
+</aside>

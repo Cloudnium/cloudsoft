@@ -1,0 +1,278 @@
+/* ============================================================
+   public/css/sidebar.css — Estilos de la barra lateral
+   ============================================================ */
+
+/* ── Contenedor principal del sidebar ──────────── */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: var(--bg-sidebar);
+  display: flex;
+  flex-direction: column;
+  z-index: 200;
+  transition: width var(--transition), transform var(--transition);
+  overflow: hidden;
+  box-shadow: 4px 0 24px rgba(30,27,75,0.18);
+}
+
+/* ── Logo / Brand ───────────────────────────────── */
+.sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 16px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  min-height: 78px;
+}
+
+/* ─── Logo: cambia /images/logo.png por tu imagen ─── */
+.sidebar__logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex-shrink: 0;
+  border-radius: 8px;
+}
+
+.sidebar__brand-text {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.sidebar__brand-name {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-white);
+  letter-spacing: 0.5px;
+}
+
+.sidebar__brand-sub {
+  display: block;
+  font-size: var(--font-size-xs);
+  color: var(--text-sidebar);
+  margin-top: 1px;
+}
+
+/* ── Navegación ─────────────────────────────────── */
+.sidebar__nav {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 12px 0;
+  /* Scrollbar personalizada */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.1) transparent;
+}
+
+.sidebar__nav::-webkit-scrollbar { width: 4px; }
+.sidebar__nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 4px; }
+
+/* ── Items del menú ─────────────────────────────── */
+.sidebar__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 20px;
+  color: var(--text-sidebar);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  border-radius: 0;
+  transition: background var(--transition), color var(--transition);
+  width: 100%;
+  text-align: left;
+  position: relative;
+  white-space: nowrap;
+}
+
+.sidebar__item:hover {
+  background: rgba(255,255,255,0.07);
+  color: var(--text-white);
+}
+
+/* Item activo (enlace directo, sin sub-menú) */
+.sidebar__item--active {
+  background: var(--color-primary) !important;
+  color: var(--text-white) !important;
+}
+
+.sidebar__item--active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--color-accent);
+  border-radius: 0 4px 4px 0;
+}
+
+/* Ícono del item */
+.sidebar__icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  width: 22px;
+  text-align: center;
+}
+
+/* Flecha del dropdown */
+.sidebar__arrow {
+  margin-left: auto;
+  font-size: 1rem;
+  transition: transform var(--transition);
+  flex-shrink: 0;
+}
+
+/* ── Grupos con sub-menú ────────────────────────── */
+.sidebar__group {}
+
+/* Cuando el grupo está abierto */
+.sidebar__group--open > .sidebar__toggle .sidebar__arrow {
+  transform: rotate(180deg);
+}
+
+.sidebar__group--open > .sidebar__toggle {
+  color: var(--text-white);
+  background: rgba(255,255,255,0.05);
+}
+
+/* ── Sub-menú ───────────────────────────────────── */
+.sidebar__submenu {
+  display: none;
+  flex-direction: column;
+  background: rgba(0,0,0,0.15);
+  border-left: 2px solid var(--color-primary);
+  margin-left: 20px;
+  border-radius: 0 0 4px 0;
+  overflow: hidden;
+}
+
+/* Cuando el sub-menú está visible */
+.sidebar__submenu.open,
+.sidebar__group--open > .sidebar__submenu {
+  display: flex;
+}
+
+.sidebar__subitem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 20px 9px 16px;
+  color: var(--text-sidebar);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  transition: background var(--transition), color var(--transition);
+  white-space: nowrap;
+}
+
+.sidebar__subitem:hover {
+  background: rgba(255,255,255,0.07);
+  color: var(--text-white);
+}
+
+.sidebar__subitem i {
+  font-size: 0.5rem; /* El punto pequeño ri-circle-line */
+  opacity: 0.6;
+}
+
+/* ── Usuario en la parte inferior ───────────────── */
+.sidebar__user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  min-height: 68px;
+}
+
+/* Avatar del usuario — cambia /images/avatar-default.png */
+.sidebar__avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-primary);
+  flex-shrink: 0;
+}
+
+.sidebar__user-info {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.sidebar__user-name {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--text-white);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar__user-role {
+  display: block;
+  font-size: var(--font-size-xs);
+  color: var(--text-sidebar);
+  text-transform: capitalize;
+}
+
+.sidebar__logout {
+  color: var(--text-sidebar);
+  font-size: 1.2rem;
+  padding: 6px;
+  border-radius: var(--border-radius-sm);
+  transition: color var(--transition), background var(--transition);
+  flex-shrink: 0;
+}
+
+.sidebar__logout:hover {
+  color: var(--color-danger);
+  background: rgba(255,77,109,0.12);
+}
+
+/* ═══════════════════════════════════════════════
+   SIDEBAR COLAPSADO
+═══════════════════════════════════════════════ */
+.app-body.sidebar-collapsed .sidebar {
+  width: var(--sidebar-collapsed);
+}
+
+.app-body.sidebar-collapsed .sidebar__brand-text,
+.app-body.sidebar-collapsed .sidebar__item span,
+.app-body.sidebar-collapsed .sidebar__arrow,
+.app-body.sidebar-collapsed .sidebar__user-info {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.app-body.sidebar-collapsed .sidebar__submenu {
+  display: none !important;
+}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE MÓVIL
+═══════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    width: var(--sidebar-width) !important;
+  }
+
+  .app-body.sidebar-open .sidebar {
+    transform: translateX(0);
+  }
+
+  /* Overlay oscuro al abrir sidebar en móvil */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 190;
+  }
+
+  .app-body.sidebar-open .sidebar-overlay {
+    display: block;
+  }
+}

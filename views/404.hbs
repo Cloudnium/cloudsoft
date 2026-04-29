@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — CLOUDSOFT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=Nunito:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <style>
+    :root {
+      --color-primary: #6c47ff;
+      --font-heading: 'Poppins', sans-serif;
+      --font-body: 'Nunito', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-body);
+      background: #f0f2f8;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+    .notfound { max-width: 480px; }
+    .notfound__code {
+      font-family: var(--font-heading);
+      font-size: 7rem;
+      font-weight: 800;
+      color: var(--color-primary);
+      opacity: 0.15;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .notfound__icon {
+      font-size: 4rem;
+      color: var(--color-primary);
+      margin-bottom: 16px;
+    }
+    .notfound__title {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1e1b4b;
+      margin-bottom: 10px;
+    }
+    .notfound__desc {
+      color: #6b7280;
+      margin-bottom: 28px;
+    }
+    .notfound__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: var(--color-primary);
+      color: white;
+      border-radius: 10px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .notfound__btn:hover { background: #5535e0; }
+  </style>
+</head>
+<body>
+  <div class="notfound">
+    <div class="notfound__code">404</div>
+    <div class="notfound__icon"><i class="ri-map-pin-2-line"></i></div>
+    <h1 class="notfound__title">Página no encontrada</h1>
+    <p class="notfound__desc">La ruta que buscas no existe en CLOUDSOFT.</p>
+    <a href="/dashboard" class="notfound__btn">
+      <i class="ri-home-4-line"></i> Volver al inicio
+    </a>
+  </div>
+</body>
+</html>

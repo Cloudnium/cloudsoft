@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{title}}</title>
+
+  <!-- ═══════════════════════════════════════════════
+       FUENTES — Google Fonts
+       Cambiar aquí para modificar la tipografía global
+       ═══════════════════════════════════════════════ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Íconos: Remixicon (libre, sin framework) -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+
+  <!-- Hoja de estilos principal -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/sidebar.css" />
+  <link rel="stylesheet" href="/css/dashboard.css" />
+</head>
+<body class="app-body">
+
+  <!-- ═══════════════════════════════════════════════
+       SIDEBAR — Barra lateral de navegación
+       ═══════════════════════════════════════════════ -->
+  {{> sidebar}}
+
+  <!-- ═══════════════════════════════════════════════
+       CONTENIDO PRINCIPAL
+       ═══════════════════════════════════════════════ -->
+  <div class="main-wrapper" id="mainWrapper">
+
+    <!-- TOPBAR: barra superior -->
+    {{> topbar}}
+
+    <!-- FLASH MESSAGES: mensajes de éxito/error -->
+    <div class="flash-container">
+      {{#if success_msg}}
+        <div class="flash flash--success">
+          <i class="ri-checkbox-circle-line"></i> {{success_msg}}
+        </div>
+      {{/if}}
+      {{#if error_msg}}
+        <div class="flash flash--error">
+          <i class="ri-error-warning-line"></i> {{error_msg}}
+        </div>
+      {{/if}}
+    </div>
+
+    <!-- CONTENIDO DE CADA PÁGINA -->
+    <main class="page-content">
+      {{{body}}}
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="app-footer">
+      <span>© {{currentYear}} CLOUDSOFT — Tu control, nuestro compromiso</span>
+    </footer>
+
+  </div><!-- /main-wrapper -->
+
+  <!-- Scripts globales -->
+  <script src="/js/sidebar.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>

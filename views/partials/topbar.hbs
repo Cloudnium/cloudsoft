@@ -1,0 +1,48 @@
+<!-- ============================================================
+     partials/topbar.hbs — Barra superior del sistema
+     Muestra: botón de menú, título de página, fecha, notificaciones
+     ============================================================ -->
+
+<header class="topbar">
+
+  <!-- Botón para colapsar/expandir el sidebar en móvil -->
+  <button class="topbar__toggle" id="sidebarToggle" aria-label="Menú">
+    <i class="ri-menu-3-line"></i>
+  </button>
+
+  <!-- Título dinámico de la página actual -->
+  <h1 class="topbar__title">{{pageTitle}}</h1>
+
+  <!-- Zona derecha de la topbar -->
+  <div class="topbar__right">
+
+    <!-- Fecha y hora actual (se actualiza con JS) -->
+    <div class="topbar__datetime">
+      <i class="ri-calendar-line"></i>
+      <span id="topbarDate"></span>
+    </div>
+
+    <!-- ─────────────────────────────────────────────
+         Icono de notificaciones
+         Para conectar con notificaciones reales:
+           → Editar /js/main.js → función loadNotifications()
+    ───────────────────────────────────────────────── -->
+    <button class="topbar__btn topbar__btn--notif" title="Notificaciones">
+      <i class="ri-notification-3-line"></i>
+      <span class="topbar__badge" id="notifBadge" style="display:none">0</span>
+    </button>
+
+    <!-- Avatar + nombre del usuario logueado -->
+    <div class="topbar__user">
+      <img
+        src="{{#if user.avatar}}{{user.avatar}}{{else}}/images/avatar-default.gif{{/if}}"
+        alt="Avatar"
+        class="topbar__avatar"
+        onerror="this.src='/images/avatar-default.gif'"
+      />
+      <span class="topbar__username">{{user.nombre}}</span>
+    </div>
+
+  </div><!-- /topbar__right -->
+
+</header>
