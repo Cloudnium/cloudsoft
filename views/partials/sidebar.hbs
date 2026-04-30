@@ -29,7 +29,7 @@
 
     <!-- Dashboard (enlace directo, sin sub-menú) -->
     <a href="/dashboard" class="sidebar__item {{#if (eq activeMenu 'dashboard')}}sidebar__item--active{{/if}}">
-      <i class="ri-dashboard-3-line sidebar__icon"></i>
+      <i class="ri-home-smile-line sidebar__icon"></i>
       <span>Dashboard</span>
     </a>
 
@@ -39,7 +39,7 @@
     ───────────────────────────────────────────────── -->
     <div class="sidebar__group {{#if (eq activeMenu 'tabla')}}sidebar__group--open{{/if}}">
       <button class="sidebar__item sidebar__toggle" data-target="menu-tabla">
-        <i class="ri-table-2 sidebar__icon"></i>
+        <i class="ri-table-line sidebar__icon"></i>
         <span>Tabla</span>
         <i class="ri-arrow-down-s-line sidebar__arrow"></i>
       </button>
@@ -55,7 +55,7 @@
     ───────────────────────────────────────────────── -->
     <div class="sidebar__group {{#if (eq activeMenu 'movimientos')}}sidebar__group--open{{/if}}">
       <button class="sidebar__item sidebar__toggle" data-target="menu-movimientos">
-        <i class="ri-swap-box-line sidebar__icon"></i>
+        <i class="ri-arrow-left-right-line sidebar__icon"></i>
         <span>Movimientos</span>
         <i class="ri-arrow-down-s-line sidebar__arrow"></i>
       </button>
@@ -71,7 +71,7 @@
     ───────────────────────────────────────────────── -->
     <div class="sidebar__group {{#if (eq activeMenu 'consultas')}}sidebar__group--open{{/if}}">
       <button class="sidebar__item sidebar__toggle" data-target="menu-consultas">
-        <i class="ri-search-eye-line sidebar__icon"></i>
+        <i class="ri-search-2-line sidebar__icon"></i>
         <span>Consultas</span>
         <i class="ri-arrow-down-s-line sidebar__arrow"></i>
       </button>
@@ -87,7 +87,7 @@
     ───────────────────────────────────────────────── -->
     <div class="sidebar__group {{#if (eq activeMenu 'liquidaciones')}}sidebar__group--open{{/if}}">
       <button class="sidebar__item sidebar__toggle" data-target="menu-liquidaciones">
-        <i class="ri-money-dollar-circle-line sidebar__icon"></i>
+        <i class="ri-wallet-3-line sidebar__icon"></i>
         <span>Liquidaciones</span>
         <i class="ri-arrow-down-s-line sidebar__arrow"></i>
       </button>
@@ -103,7 +103,7 @@
     ───────────────────────────────────────────────── -->
     <div class="sidebar__group {{#if (eq activeMenu 'reportes')}}sidebar__group--open{{/if}}">
       <button class="sidebar__item sidebar__toggle" data-target="menu-reportes">
-        <i class="ri-bar-chart-box-line sidebar__icon"></i>
+        <i class="ri-bar-chart-grouped-line sidebar__icon"></i>
         <span>Reportes</span>
         <i class="ri-arrow-down-s-line sidebar__arrow"></i>
       </button>
@@ -120,14 +120,14 @@
     ───────────────────────────────────────────────── -->
     <div class="sidebar__group {{#if (eq activeMenu 'utilitarios')}}sidebar__group--open{{/if}}">
       <button class="sidebar__item sidebar__toggle" data-target="menu-utilitarios">
-        <i class="ri-tools-line sidebar__icon"></i>
+        <i class="ri-settings-3-line sidebar__icon"></i>
         <span>Utilitarios</span>
         <i class="ri-arrow-down-s-line sidebar__arrow"></i>
       </button>
       <ul class="sidebar__submenu" id="menu-utilitarios">
-        <li><a href="/utilitarios/usuarios"    class="sidebar__subitem"><i class="ri-circle-line"></i> Usuarios</a></li>
-        <li><a href="/utilitarios/configuracion" class="sidebar__subitem"><i class="ri-circle-line"></i> Configuración</a></li>
-        <li><a href="/utilitarios/backup"      class="sidebar__subitem"><i class="ri-circle-line"></i> Backup</a></li>
+        <li><a href="/utilitarios/usuarios"    class="sidebar__subitem"><i class="ri-group-line"></i></i> Usuarios</a></li>
+        <li><a href="/utilitarios/configuracion" class="sidebar__subitem"><i class="ri-equalizer-2-line"></i></i> Configuración</a></li>
+        <li><a href="/utilitarios/backup"      class="sidebar__subitem"><i class="ri-cloud-line"></i></i> Backup</a></li>
       </ul>
     </div>
 
