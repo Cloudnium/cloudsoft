@@ -1,11 +1,11 @@
 <!-- ============================================================
      views/sections/usuarios.hbs — Gestión de Usuarios
-     Funciones: listar, crear, editar, inhabilitar, eliminar
+     Responsivo: tabla en escritorio, cards en móvil (≤ 600px)
      ============================================================ -->
 
 <div class="usuarios-page">
 
-  <!-- ── ENCABEZADO + BOTÓN NUEVO ─────────────────────── -->
+  <!-- Encabezado -->
   <div class="usuarios-header">
     <div>
       <h2 class="usuarios-title">
@@ -14,11 +14,12 @@
       <p class="usuarios-subtitle">Administra los accesos al sistema CLOUDSOFT</p>
     </div>
     <button class="btn btn--primary" onclick="abrirModalCrear()">
-      <i class="ri-user-add-line"></i> Nuevo usuario
+      <i class="ri-user-add-line"></i>
+      <span>Nuevo usuario</span>
     </button>
   </div>
 
-  <!-- ── FLASH MESSAGES ───────────────────────────────── -->
+  <!-- Flash messages -->
   {{#if success_msg}}
     <div class="flash flash--success"><i class="ri-checkbox-circle-line"></i> {{success_msg}}</div>
   {{/if}}
@@ -29,15 +30,15 @@
     <div class="flash flash--error"><i class="ri-error-warning-line"></i> {{dbError}}</div>
   {{/if}}
 
-  <!-- ── TABLA DE USUARIOS ────────────────────────────── -->
-  <div class="card">
+  <!-- ── VISTA ESCRITORIO: Tabla ──────────────────────── -->
+  <div class="card usuarios-table-view">
     <div class="table-wrapper">
       <table class="table">
         <thead>
           <tr>
             <th>NOMBRE</th>
             <th>USUARIO</th>
-            <th>EMAIL</th>
+            <th class="col-email">EMAIL</th>
             <th>ROL</th>
             <th>ESTADO</th>
             <th>ACCIONES</th>
@@ -47,30 +48,17 @@
           {{#if usuarios.length}}
             {{#each usuarios}}
             <tr>
-              <!-- Nombre con avatar inicial -->
               <td>
                 <div class="user-cell">
-                  <div class="user-avatar-mini" data-nombre="{{nombre}}">
-                    {{avatarLetra nombre}}
-                  </div>
+                  <div class="user-avatar-mini">{{avatarLetra nombre}}</div>
                   <span class="user-nombre">{{nombre}}</span>
                 </div>
               </td>
-
-              <!-- Username -->
               <td><span class="user-username">@{{username}}</span></td>
-
-              <!-- Email -->
-              <td class="text-muted-cell">{{email}}</td>
-
-              <!-- Rol con badge de color -->
+              <td class="col-email text-muted-cell">{{email}}</td>
               <td>
-                <span class="badge badge-rol badge-rol--{{rol}}">
-                  {{rolLabel rol}}
-                </span>
+                <span class="badge badge-rol badge-rol--{{rol}}">{{rolLabel rol}}</span>
               </td>
-
-              <!-- Estado activo/inactivo -->
               <td>
                 {{#if activo}}
                   <span class="badge badge--green">Activo</span>
@@ -78,41 +66,29 @@
                   <span class="badge badge--red">Inactivo</span>
                 {{/if}}
               </td>
-
-              <!-- Acciones -->
               <td>
                 <div class="acciones-grupo">
-                  <!-- Editar -->
-                  <button
-                    class="btn-accion btn-accion--edit"
-                    onclick="abrirModalEditar('{{id}}')"
-                    title="Editar usuario"
-                  >
-                    <i class="ri-edit-line"></i> Editar
+                  <button class="btn-accion btn-accion--edit" onclick="abrirModalEditar('{{id}}')">
+                    <i class="ri-edit-line"></i> <span>Editar</span>
                   </button>
 
-                  <!-- Inhabilitar / Habilitar -->
                   <form action="/utilitarios/usuarios/{{id}}/toggle" method="POST" style="display:inline">
                     {{#if activo}}
                       <button type="submit" class="btn-accion btn-accion--warn"
-                        onclick="return confirm('¿Inhabilitar al usuario {{username}}?')"
-                        title="Inhabilitar">
-                        <i class="ri-forbid-line"></i> Desact.
+                        onclick="return confirm('¿Inhabilitar a {{username}}?')">
+                        <i class="ri-forbid-line"></i> <span>Desact.</span>
                       </button>
                     {{else}}
                       <button type="submit" class="btn-accion btn-accion--success"
-                        onclick="return confirm('¿Habilitar al usuario {{username}}?')"
-                        title="Habilitar">
-                        <i class="ri-check-line"></i> Activar
+                        onclick="return confirm('¿Habilitar a {{username}}?')">
+                        <i class="ri-check-line"></i> <span>Activar</span>
                       </button>
                     {{/if}}
                   </form>
 
-                  <!-- Eliminar -->
                   <form action="/utilitarios/usuarios/{{id}}/eliminar" method="POST" style="display:inline">
                     <button type="submit" class="btn-accion btn-accion--danger"
-                      onclick="return confirm('¿Eliminar permanentemente al usuario {{username}}? Esta acción no se puede deshacer.')"
-                      title="Eliminar">
+                      onclick="return confirm('¿Eliminar permanentemente a {{username}}?')">
                       <i class="ri-delete-bin-line"></i>
                     </button>
                   </form>
@@ -131,18 +107,75 @@
         </tbody>
       </table>
     </div>
-
-    <!-- Contador de usuarios -->
     <div class="table-footer">
-      <span>Total: <strong>{{usuarios.length}}</strong> usuario(s)</span>
+      Total: <strong>{{usuarios.length}}</strong> usuario(s)
     </div>
+  </div>
+
+  <!-- ── VISTA MÓVIL: Cards ──────────────────────────────
+       Se muestra solo en pantallas pequeñas (CSS lo controla)
+  ─────────────────────────────────────────────────────── -->
+  <div class="usuarios-cards-view">
+    {{#if usuarios.length}}
+      {{#each usuarios}}
+      <div class="usuario-card">
+        <div class="usuario-card__top">
+          <div class="usuario-card__avatar">{{avatarLetra nombre}}</div>
+          <div class="usuario-card__info">
+            <span class="usuario-card__nombre">{{nombre}}</span>
+            <span class="usuario-card__username">@{{username}}</span>
+            <span class="usuario-card__email">{{email}}</span>
+          </div>
+          <div class="usuario-card__badges">
+            <span class="badge badge-rol badge-rol--{{rol}}">{{rolLabel rol}}</span>
+            {{#if activo}}
+              <span class="badge badge--green">Activo</span>
+            {{else}}
+              <span class="badge badge--red">Inactivo</span>
+            {{/if}}
+          </div>
+        </div>
+        <div class="usuario-card__actions">
+          <button class="btn-accion btn-accion--edit" onclick="abrirModalEditar('{{id}}')">
+            <i class="ri-edit-line"></i> Editar
+          </button>
+
+          <form action="/utilitarios/usuarios/{{id}}/toggle" method="POST" style="display:inline">
+            {{#if activo}}
+              <button type="submit" class="btn-accion btn-accion--warn"
+                onclick="return confirm('¿Inhabilitar a {{username}}?')">
+                <i class="ri-forbid-line"></i> Desact.
+              </button>
+            {{else}}
+              <button type="submit" class="btn-accion btn-accion--success"
+                onclick="return confirm('¿Habilitar a {{username}}?')">
+                <i class="ri-check-line"></i> Activar
+              </button>
+            {{/if}}
+          </form>
+
+          <form action="/utilitarios/usuarios/{{id}}/eliminar" method="POST" style="display:inline">
+            <button type="submit" class="btn-accion btn-accion--danger"
+              onclick="return confirm('¿Eliminar permanentemente a {{username}}?')">
+              <i class="ri-delete-bin-line"></i> Eliminar
+            </button>
+          </form>
+        </div>
+      </div>
+      {{/each}}
+    {{else}}
+      <div class="usuarios-empty">
+        <i class="ri-user-search-line"></i>
+        <p>No hay usuarios registrados</p>
+      </div>
+    {{/if}}
   </div>
 
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
+<!-- ══════════════════════════════════════════════════════
      MODAL: CREAR USUARIO
-═══════════════════════════════════════════════════════════ -->
+══════════════════════════════════════════════════════ -->
 <div class="modal-overlay" id="modalCrear">
   <div class="modal">
     <div class="modal-header">
@@ -151,32 +184,22 @@
         <i class="ri-close-line"></i>
       </button>
     </div>
-
     <form action="/utilitarios/usuarios/crear" method="POST" class="modal-form">
-
       <div class="form-row">
-        <!-- Nombre completo -->
         <div class="form-group">
           <label class="form-label"><i class="ri-user-line"></i> Nombre completo</label>
           <input type="text" name="nombre" class="form-input" placeholder="Ej: Juan Pérez" required />
         </div>
-
-        <!-- Username -->
         <div class="form-group">
           <label class="form-label"><i class="ri-at-line"></i> Usuario</label>
-          <input type="text" name="username" class="form-input" placeholder="Ej: jperez" required
-            pattern="[a-zA-Z0-9_]+" title="Solo letras, números y guiones bajos" />
+          <input type="text" name="username" class="form-input" placeholder="Ej: jperez" required />
         </div>
       </div>
-
       <div class="form-row">
-        <!-- Email -->
         <div class="form-group">
           <label class="form-label"><i class="ri-mail-line"></i> Email</label>
           <input type="email" name="email" class="form-input" placeholder="correo@empresa.com" required />
         </div>
-
-        <!-- Rol -->
         <div class="form-group">
           <label class="form-label"><i class="ri-shield-user-line"></i> Rol</label>
           <select name="rol" class="form-input" required>
@@ -187,47 +210,41 @@
           </select>
         </div>
       </div>
-
       <div class="form-row">
-        <!-- Contraseña -->
         <div class="form-group">
           <label class="form-label"><i class="ri-lock-line"></i> Contraseña</label>
           <div class="input-eye-wrap">
             <input type="password" name="password" id="crearPass" class="form-input"
               placeholder="Mínimo 6 caracteres" required minlength="6" />
-            <button type="button" class="input-eye" onclick="togglePass('crearPass', this)">
+            <button type="button" class="input-eye" onclick="togglePass('crearPass',this)">
               <i class="ri-eye-off-line"></i>
             </button>
           </div>
         </div>
-
-        <!-- Confirmar contraseña (solo visual, validación en JS) -->
         <div class="form-group">
           <label class="form-label"><i class="ri-lock-2-line"></i> Confirmar contraseña</label>
           <div class="input-eye-wrap">
             <input type="password" id="crearPassConfirm" class="form-input"
               placeholder="Repite la contraseña" required minlength="6" />
-            <button type="button" class="input-eye" onclick="togglePass('crearPassConfirm', this)">
+            <button type="button" class="input-eye" onclick="togglePass('crearPassConfirm',this)">
               <i class="ri-eye-off-line"></i>
             </button>
           </div>
         </div>
       </div>
-
       <div class="modal-footer">
         <button type="button" class="btn btn--outline" onclick="cerrarModal('modalCrear')">Cancelar</button>
-        <button type="submit" class="btn btn--primary" id="btnCrear">
+        <button type="submit" class="btn btn--primary">
           <i class="ri-save-line"></i> Crear Usuario
         </button>
       </div>
-
     </form>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
+<!-- ══════════════════════════════════════════════════════
      MODAL: EDITAR USUARIO
-═══════════════════════════════════════════════════════════ -->
+══════════════════════════════════════════════════════ -->
 <div class="modal-overlay" id="modalEditar">
   <div class="modal">
     <div class="modal-header">
@@ -236,9 +253,7 @@
         <i class="ri-close-line"></i>
       </button>
     </div>
-
     <form id="formEditar" action="" method="POST" class="modal-form">
-
       <div class="form-row">
         <div class="form-group">
           <label class="form-label"><i class="ri-user-line"></i> Nombre completo</label>
@@ -249,7 +264,6 @@
           <input type="text" name="username" id="editUsername" class="form-input" required />
         </div>
       </div>
-
       <div class="form-row">
         <div class="form-group">
           <label class="form-label"><i class="ri-mail-line"></i> Email</label>
@@ -264,32 +278,27 @@
           </select>
         </div>
       </div>
-
-      <!-- Nueva contraseña (opcional) -->
       <div class="form-group">
         <label class="form-label">
           <i class="ri-lock-line"></i> Nueva contraseña
-          <span class="form-hint">(dejar vacío para no cambiar)</span>
+          <span class="form-hint">(vacío = no cambiar)</span>
         </label>
         <div class="input-eye-wrap">
           <input type="password" name="password" id="editPass" class="form-input"
             placeholder="Nueva contraseña (opcional)" minlength="6" />
-          <button type="button" class="input-eye" onclick="togglePass('editPass', this)">
+          <button type="button" class="input-eye" onclick="togglePass('editPass',this)">
             <i class="ri-eye-off-line"></i>
           </button>
         </div>
       </div>
-
       <div class="modal-footer">
         <button type="button" class="btn btn--outline" onclick="cerrarModal('modalEditar')">Cancelar</button>
         <button type="submit" class="btn btn--primary">
           <i class="ri-save-line"></i> Guardar Cambios
         </button>
       </div>
-
     </form>
   </div>
 </div>
 
-<!-- Script de esta página -->
 <script src="/js/usuarios.js"></script>

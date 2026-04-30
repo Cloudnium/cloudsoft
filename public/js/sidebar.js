@@ -1,101 +1,81 @@
 /* ============================================================
-   public/js/sidebar.js — Comportamiento del sidebar
-   Maneja: colapso, menús desplegables, responsive
+   public/js/sidebar.js — Sidebar responsivo CLOUDSOFT
+   Maneja: colapso escritorio, drawer móvil, submenús
    ============================================================ */
 
 (function () {
   'use strict';
 
-  // ── ELEMENTOS ──────────────────────────────────────
-  const body          = document.body;
-  const sidebar       = document.getElementById('sidebar');
-  const toggleBtn     = document.getElementById('sidebarToggle');
-  const mainWrapper   = document.getElementById('mainWrapper');
+  const body      = document.body;
+  const sidebar   = document.getElementById('sidebar');
+  const toggleBtn = document.getElementById('sidebarToggle');
 
   if (!sidebar) return;
 
-  // ── CREAR OVERLAY para móvil ───────────────────────
-  // Se muestra como fondo oscuro cuando el sidebar se abre en móvil
+  // ── Crear overlay para móvil ───────────────────────────
   const overlay = document.createElement('div');
   overlay.className = 'sidebar-overlay';
   body.appendChild(overlay);
+  overlay.addEventListener('click', closeMobile);
 
-  overlay.addEventListener('click', closeMobileSidebar);
+  // ── Detectar si es móvil ───────────────────────────────
+  const isMobile = () => window.innerWidth <= 768;
 
-  // ── BOTÓN TOGGLE (topbar) ─────────────────────────
-  // En escritorio: colapsa el sidebar
-  // En móvil: muestra/oculta el sidebar
+  // ── Botón toggle ───────────────────────────────────────
   if (toggleBtn) {
     toggleBtn.addEventListener('click', () => {
-      if (window.innerWidth <= 768) {
-        toggleMobileSidebar();
+      if (isMobile()) {
+        toggleMobile();
       } else {
-        toggleDesktopCollapse();
+        toggleDesktop();
       }
     });
   }
 
-  // ── COLAPSO EN ESCRITORIO ──────────────────────────
-  function toggleDesktopCollapse() {
-    const isCollapsed = body.classList.toggle('sidebar-collapsed');
-    // Guardar preferencia en localStorage
-    localStorage.setItem('sidebarCollapsed', isCollapsed ? '1' : '0');
+  // ── ESCRITORIO: colapsar/expandir ─────────────────────
+  function toggleDesktop() {
+    const collapsed = body.classList.toggle('sidebar-collapsed');
+    localStorage.setItem('sidebarCollapsed', collapsed ? '1' : '0');
   }
 
-  // ── SIDEBAR MÓVIL ──────────────────────────────────
-  function toggleMobileSidebar() {
+  // ── MÓVIL: abrir/cerrar drawer ─────────────────────────
+  function toggleMobile() {
     const isOpen = body.classList.toggle('sidebar-open');
     overlay.style.display = isOpen ? 'block' : 'none';
-    document.body.style.overflow = isOpen ? 'hidden' : '';
+    body.style.overflow   = isOpen ? 'hidden' : '';
   }
 
-  function closeMobileSidebar() {
+  function closeMobile() {
     body.classList.remove('sidebar-open');
     overlay.style.display = 'none';
-    document.body.style.overflow = '';
+    body.style.overflow   = '';
   }
 
-  // ── RESTAURAR ESTADO DEL SIDEBAR AL CARGAR ─────────
-  // Solo en escritorio
-  if (window.innerWidth > 768) {
-    const savedState = localStorage.getItem('sidebarCollapsed');
-    if (savedState === '1') {
+  // ── Restaurar estado colapsado al cargar (solo desktop) ─
+  if (!isMobile()) {
+    if (localStorage.getItem('sidebarCollapsed') === '1') {
       body.classList.add('sidebar-collapsed');
     }
   }
 
-  // ── MENÚS DESPLEGABLES (sub-menús) ─────────────────
-  // Cada botón con clase .sidebar__toggle activa su sub-menú
-  const toggleButtons = sidebar.querySelectorAll('.sidebar__toggle');
-
-  toggleButtons.forEach((btn) => {
+  // ── Submenús desplegables ──────────────────────────────
+  sidebar.querySelectorAll('.sidebar__toggle').forEach(btn => {
     btn.addEventListener('click', function () {
-      const group     = this.closest('.sidebar__group');
-      const targetId  = this.getAttribute('data-target');
-      const submenu   = document.getElementById(targetId);
-
+      const group   = this.closest('.sidebar__group');
+      const id      = this.getAttribute('data-target');
+      const submenu = document.getElementById(id);
       if (!group || !submenu) return;
 
-      const isOpen = group.classList.contains('sidebar__group--open');
-
-      // Si el sidebar está colapsado en escritorio,
-      // expandir primero y luego abrir el sub-menú
-      if (body.classList.contains('sidebar-collapsed') && window.innerWidth > 768) {
+      // En escritorio colapsado: expandir primero
+      if (body.classList.contains('sidebar-collapsed') && !isMobile()) {
         body.classList.remove('sidebar-collapsed');
         localStorage.setItem('sidebarCollapsed', '0');
-        // Pequeña espera para la animación de expansión
         setTimeout(() => openGroup(group, submenu), 50);
         return;
       }
 
-      if (isOpen) {
-        closeGroup(group, submenu);
-      } else {
-        // Opcional: cerrar otros grupos abiertos (acordeón)
-        // Descomenta para activar comportamiento acordeón:
-        // closeAllGroups();
-        openGroup(group, submenu);
-      }
+      const isOpen = group.classList.contains('sidebar__group--open');
+      isOpen ? closeGroup(group, submenu) : openGroup(group, submenu);
     });
   });
 
@@ -109,22 +89,24 @@
     submenu.classList.remove('open');
   }
 
-  // Cierra todos los grupos (para modo acordeón)
-  function closeAllGroups() {
-    sidebar.querySelectorAll('.sidebar__group--open').forEach((g) => {
-      g.classList.remove('sidebar__group--open');
-      const sub = g.querySelector('.sidebar__submenu');
-      if (sub) sub.classList.remove('open');
+  // ── Cerrar sidebar al navegar en móvil ─────────────────
+  sidebar.querySelectorAll('.sidebar__subitem, .sidebar__item--active').forEach(link => {
+    link.addEventListener('click', () => {
+      if (isMobile()) closeMobile();
     });
-  }
+  });
 
-  // ── AJUSTE RESPONSIVE AL REDIMENSIONAR ─────────────
+  // ── Cerrar sidebar al redimensionar a escritorio ───────
   window.addEventListener('resize', () => {
-    if (window.innerWidth > 768) {
-      // Cerrar el overlay de móvil si el usuario agranda la ventana
-      closeMobileSidebar();
+    if (!isMobile()) {
+      closeMobile();
       overlay.style.display = 'none';
     }
+  });
+
+  // ── Cerrar con tecla ESC en móvil ──────────────────────
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && isMobile()) closeMobile();
   });
 
 })();

@@ -2,41 +2,36 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Viewport: esencial para responsividad en móvil -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="theme-color" content="#6c47ff" />
   <title>{{title}}</title>
 
-  <!-- ═══════════════════════════════════════════════
-       FUENTES — Google Fonts
-       Cambiar aquí para modificar la tipografía global
-       ═══════════════════════════════════════════════ -->
+  <!-- Fuentes Google -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Íconos: Remixicon (libre, sin framework) -->
+  <!-- Íconos Remixicon -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
 
-  <!-- Hoja de estilos principal -->
+  <!-- Estilos del sistema -->
   <link rel="stylesheet" href="/css/main.css" />
   <link rel="stylesheet" href="/css/sidebar.css" />
   <link rel="stylesheet" href="/css/dashboard.css" />
 </head>
 <body class="app-body">
 
-  <!-- ═══════════════════════════════════════════════
-       SIDEBAR — Barra lateral de navegación
-       ═══════════════════════════════════════════════ -->
+  <!-- Sidebar lateral -->
   {{> sidebar}}
 
-  <!-- ═══════════════════════════════════════════════
-       CONTENIDO PRINCIPAL
-       ═══════════════════════════════════════════════ -->
+  <!-- Contenido principal -->
   <div class="main-wrapper" id="mainWrapper">
 
-    <!-- TOPBAR: barra superior -->
+    <!-- Barra superior -->
     {{> topbar}}
 
-    <!-- FLASH MESSAGES: mensajes de éxito/error -->
+    <!-- Mensajes flash -->
     <div class="flash-container">
       {{#if success_msg}}
         <div class="flash flash--success">
@@ -50,19 +45,19 @@
       {{/if}}
     </div>
 
-    <!-- CONTENIDO DE CADA PÁGINA -->
+    <!-- Contenido de cada página -->
     <main class="page-content">
       {{{body}}}
     </main>
 
-    <!-- FOOTER -->
+    <!-- Footer -->
     <footer class="app-footer">
       <span>© {{currentYear}} CLOUDSOFT — Tu control, nuestro compromiso</span>
     </footer>
 
-  </div><!-- /main-wrapper -->
+  </div>
 
-  <!-- Scripts globales -->
+  <!-- Scripts -->
   <script src="/js/sidebar.js"></script>
   <script src="/js/main.js"></script>
 </body>
