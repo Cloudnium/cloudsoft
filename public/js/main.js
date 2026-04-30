@@ -43,18 +43,24 @@
 
   // ── MOSTRAR/OCULTAR CONTRASEÑA (login) ─────────────
   // Solo activo si estamos en la pantalla de login
-  const togglePass = document.getElementById('togglePass');
-  const passInput  = document.getElementById('password');
-  const eyeIcon    = document.getElementById('eyeIcon');
+//const togglePass = document.getElementById('togglePass');
+//const passInput  = document.getElementById('password');
+//const eyeIcon    = document.getElementById('eyeIcon');
 
-  if (togglePass && passInput && eyeIcon) {
-    togglePass.addEventListener('click', () => {
-      const isHidden = passInput.type === 'password';
-      passInput.type = isHidden ? 'text' : 'password';
-      eyeIcon.className = isHidden ? 'ri-eye-line' : 'ri-eye-off-line';
-    });
-  }
-
+if (togglePass && passInput && eyeIcon) {
+  togglePass.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (passInput.type === 'password') {
+      passInput.type = 'text';
+      eyeIcon.className = 'ri-eye-line';
+    } else {
+      passInput.type = 'password';
+      eyeIcon.className = 'ri-eye-off-line';
+    }
+    passInput.focus();
+  });
+}
   // ── NOTIFICACIONES (placeholder) ───────────────────
   // Para conectar con notificaciones reales:
   //   1. Crea un endpoint GET /api/notificaciones en Express

@@ -170,3 +170,12 @@
   .login-brand { flex-direction: column; align-items: flex-start; gap: 8px; }
   .login-logo  { width: 56px; height: 56px; }
 }
+
+
+/* Ocultar el ojito nativo de Chrome/Edge */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear,
+input::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-textfield-decoration-container {
+  display: none !important;
+}

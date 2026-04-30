@@ -125,4 +125,21 @@
 
   </div>
 
+<script>
+  window.addEventListener('load', function() {
+    var btn   = document.getElementById('togglePass');
+    var input = document.getElementById('password');
+    var icon  = document.getElementById('eyeIcon');
+
+    if (btn && input && icon) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        input.type = input.type === 'password' ? 'text' : 'password';
+        icon.className = input.type === 'password' ? 'ri-eye-off-line' : 'ri-eye-line';
+      });
+    }
+  });
+</script>
+
 </div>
