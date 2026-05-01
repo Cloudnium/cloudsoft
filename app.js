@@ -23,6 +23,16 @@ app.engine('hbs', exphbs.engine({
   layoutsDir:   path.join(__dirname, 'views/layouts'),
   partialsDir:  path.join(__dirname, 'views/partials'),
   helpers: {
+
+    servicioSlug: (s) => {
+      if (!s) return 'default';
+      const sl = s.toLowerCase();
+      if (sl.includes('black'))    return 'black';
+      if (sl.includes('econom'))   return 'economico';
+      if (sl.includes('turista') || sl.includes('premium')) return 'turista-premium';
+      return 'default';
+    },
+
     // Comparar igualdad (para menú activo)
     eq: (a, b) => a === b,
 

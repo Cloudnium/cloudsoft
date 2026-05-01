@@ -319,3 +319,370 @@
   .usuarios-table-view { display: none; }
   .usuarios-cards-view { display: block; }
 }
+
+/* ============================================================
+   MÓDULO BOLETAJE — Totalmente responsivo
+   ============================================================ */
+
+.boletaje-page { padding: 4px 0; display: flex; flex-direction: column; gap: 20px; }
+
+/* ── Fila de acciones ───────────────────────────────────── */
+.boletaje-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.boletaje-actions__left  { display: flex; gap: 10px; flex-wrap: wrap; }
+.boletaje-actions__right { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* ── Fila superior: calendario + info + filtro ──────────── */
+.boletaje-top {
+  display: grid;
+  grid-template-columns: 300px 1fr 320px;
+  gap: 20px;
+  align-items: start;
+}
+
+/* ════ CALENDARIO ═══════════════════════════════════════ */
+.boletaje-cal { padding: 16px; }
+
+.cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.cal-title {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.cal-nav {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  transition: background var(--transition), color var(--transition);
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+.cal-nav:hover { background: var(--color-primary-light); color: var(--color-primary); }
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  margin-bottom: 6px;
+}
+
+.cal-dow {
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  padding: 4px 0;
+}
+
+.cal-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.cal-day {
+  aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: var(--text-primary);
+  transition: background var(--transition), color var(--transition);
+  min-width: 32px; min-height: 32px;
+}
+.cal-day:hover { background: var(--color-primary-light); color: var(--color-primary); }
+.cal-day--other    { color: var(--text-muted); }
+.cal-day--today    { background: var(--color-primary-light); color: var(--color-primary); font-weight: 700; }
+.cal-day--selected { background: var(--color-primary) !important; color: white !important; font-weight: 700; }
+
+.cal-today {
+  text-align: center;
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-color);
+}
+
+/* ════ PANEL INFO ════════════════════════════════════════ */
+.boletaje-info { padding: 20px; display: flex; align-items: center; justify-content: center; min-height: 200px; }
+
+.boletaje-info__empty {
+  text-align: center;
+  color: var(--text-muted);
+}
+.boletaje-info__empty i {
+  font-size: 2.8rem;
+  margin-bottom: 12px;
+  display: block;
+  color: var(--border-color);
+}
+.boletaje-info__empty p { font-size: var(--font-size-sm); line-height: 1.6; }
+
+.boletaje-info__detail { width: 100%; }
+.boletaje-info__detail h4 {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--color-primary-light);
+}
+
+.info-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.info-stat {
+  background: var(--bg-app);
+  border-radius: var(--border-radius);
+  padding: 12px 14px;
+}
+.info-stat__label {
+  display: block;
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+.info-stat__val {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* ════ FILTRO DESTINO ════════════════════════════════════ */
+.boletaje-filtro { padding: 16px; }
+
+.boletaje-filtro__title {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.boletaje-filtro__title i { color: var(--color-primary); }
+
+.filtro-search-wrap {
+  position: relative;
+  margin-bottom: 10px;
+}
+.filtro-search-icon {
+  position: absolute;
+  left: 10px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 1rem;
+  pointer-events: none;
+}
+.filtro-search-input {
+  width: 100%;
+  padding: 9px 36px 9px 34px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  outline: none;
+  transition: border-color var(--transition);
+  background: #fafafa;
+  color: var(--text-primary);
+}
+.filtro-search-input:focus { border-color: var(--color-primary); background: white; }
+
+.filtro-clear {
+  position: absolute;
+  right: 8px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  border: none; background: none;
+  transition: color var(--transition);
+}
+.filtro-clear:hover { color: var(--color-primary); }
+
+.filtro-list {
+  max-height: 220px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  scrollbar-width: thin;
+}
+
+.filtro-item {
+  padding: 10px 14px;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  border-bottom: 1px solid var(--border-color);
+  transition: background var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.filtro-item:last-child { border-bottom: none; }
+.filtro-item:hover { background: var(--color-primary-light); }
+.filtro-item--active {
+  background: #fef9e7;
+  font-weight: 700;
+  color: #856404;
+}
+.filtro-item--active::after {
+  content: '\2713';
+  font-weight: 700;
+  color: var(--color-success);
+}
+
+/* ════ TABLA DE SALIDAS ══════════════════════════════════ */
+.boletaje-tabla-card { padding: 0; overflow: hidden; }
+
+.boletaje-tabla-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid var(--border-color);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.boletaje-tabla-header .card__title { margin-bottom: 0; }
+
+.boletaje-fecha-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+.boletaje-table { min-width: 900px; }
+
+/* Columnas especiales */
+.hora-cell   { white-space: nowrap; font-weight: 600; color: var(--color-primary); }
+.precio-cell { white-space: nowrap; font-weight: 600; }
+
+/* Fila seleccionada */
+.boletaje-row { cursor: pointer; }
+.boletaje-row.row--selected td { background: #fef9e7 !important; }
+
+/* Badge de servicio */
+.servicio-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.servicio-badge--economico       { background: #dbeafe; color: #1e40af; }
+.servicio-badge--black           { background: #1e1b4b; color: white; }
+.servicio-badge--turista-premium { background: #fef9c3; color: #854d0e; }
+.servicio-badge--default         { background: var(--color-primary-light); color: var(--color-primary); }
+
+/* Badge de placa */
+.placa-badge {
+  font-family: monospace;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--text-primary);
+  background: var(--bg-app);
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+
+/* Totales */
+.boletaje-totales {
+  padding: 12px 20px;
+  border-top: 1px solid var(--border-color);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+/* ════════════════════════════════════════════════════════
+   RESPONSIVE BOLETAJE — TABLET (≤ 1200px)
+════════════════════════════════════════════════════════ */
+@media (max-width: 1200px) {
+  .boletaje-top {
+    grid-template-columns: 260px 1fr 280px;
+    gap: 14px;
+  }
+}
+
+/* ════════════════════════════════════════════════════════
+   RESPONSIVE BOLETAJE — TABLET (≤ 1024px)
+════════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .boletaje-top {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+  /* Filtro ocupa columna completa */
+  .boletaje-filtro {
+    grid-column: 1 / -1;
+  }
+  .filtro-list { max-height: 160px; }
+}
+
+/* ════════════════════════════════════════════════════════
+   RESPONSIVE BOLETAJE — MÓVIL (≤ 768px)
+════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .boletaje-top {
+    grid-template-columns: 1fr;
+  }
+
+  .boletaje-actions { gap: 8px; }
+  .boletaje-actions__left,
+  .boletaje-actions__right { width: 100%; }
+  .boletaje-actions__left .btn,
+  .boletaje-actions__right .btn { flex: 1; justify-content: center; }
+
+  .cal-day { min-width: 28px; min-height: 28px; font-size: var(--font-size-xs); }
+
+  .info-stats { grid-template-columns: 1fr 1fr; }
+
+  .boletaje-tabla-header { padding: 14px 16px 10px; }
+  .boletaje-tabla-header .card__title { font-size: var(--font-size-base); }
+  .boletaje-totales { padding: 10px 16px; }
+}
+
+/* ════════════════════════════════════════════════════════
+   RESPONSIVE BOLETAJE — MÓVIL PEQUEÑO (≤ 480px)
+════════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .cal-day { min-width: 24px; min-height: 24px; }
+  .cal-dow { font-size: 0.65rem; }
+  .info-stats { grid-template-columns: 1fr; }
+  .boletaje-fecha-badge { font-size: var(--font-size-xs); padding: 5px 10px; }
+}

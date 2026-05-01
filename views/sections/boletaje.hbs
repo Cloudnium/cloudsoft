@@ -1,0 +1,209 @@
+<!-- ============================================================
+     views/sections/boletaje.hbs — Módulo de Boletaje
+     Layout: Botones acción | Calendario | Panel info | Filtro destino
+              Tabla de salidas detallada
+     ============================================================ -->
+
+<div class="boletaje-page">
+
+  <!-- ── FLASH MESSAGES ─────────────────────────────────── -->
+  {{#if success_msg}}<div class="flash flash--success"><i class="ri-checkbox-circle-line"></i> {{success_msg}}</div>{{/if}}
+  {{#if error_msg}}<div class="flash flash--error"><i class="ri-error-warning-line"></i> {{error_msg}}</div>{{/if}}
+  {{#if dbError}}<div class="flash flash--error"><i class="ri-error-warning-line"></i> {{dbError}}</div>{{/if}}
+
+  <!-- ── FILA 1: BOTONES DE ACCIÓN ──────────────────────── -->
+  <div class="boletaje-actions">
+    <div class="boletaje-actions__left">
+      <button class="btn btn--primary" onclick="imprimirManifiesto()">
+        <i class="ri-file-list-3-line"></i>
+        <span>Manifiesto</span>
+      </button>
+      <button class="btn btn--outline" onclick="verCroquis()">
+        <i class="ri-map-2-line"></i>
+        <span>Ver Croquis</span>
+      </button>
+    </div>
+    <div class="boletaje-actions__right">
+      <button class="btn btn--outline" onclick="verManifiestoExceso()">
+        <i class="ri-file-warning-line"></i>
+        <span>Manifiesto Exceso</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── FILA 2: CALENDARIO + PANEL INFO + FILTRO DESTINO ── -->
+  <div class="boletaje-top">
+
+    <!-- CALENDARIO -->
+    <div class="boletaje-cal card">
+      <div class="cal-header">
+        <button class="cal-nav" id="calPrev"><i class="ri-arrow-left-s-line"></i></button>
+        <span class="cal-title" id="calTitle"></span>
+        <button class="cal-nav" id="calNext"><i class="ri-arrow-right-s-line"></i></button>
+      </div>
+      <div class="cal-grid">
+        <div class="cal-dow">dom.</div>
+        <div class="cal-dow">lun.</div>
+        <div class="cal-dow">mar.</div>
+        <div class="cal-dow">mié.</div>
+        <div class="cal-dow">jue.</div>
+        <div class="cal-dow">véb.</div>
+        <div class="cal-dow">sáb.</div>
+      </div>
+      <div class="cal-days" id="calDays"></div>
+      <div class="cal-today">Hoy: <strong id="calTodayLabel"></strong></div>
+    </div>
+
+    <!-- PANEL DE INFORMACIÓN (se llena al seleccionar fila) -->
+    <div class="boletaje-info card" id="panelInfo">
+      <div class="boletaje-info__empty">
+        <i class="ri-image-add-line"></i>
+        <p>Seleccione una ruta para ver<br>detalles adicionales o<br>estadísticas aquí.</p>
+      </div>
+      <div class="boletaje-info__detail" id="panelInfoDetail" style="display:none">
+        <h4 id="infoRuta"></h4>
+        <div class="info-stats">
+          <div class="info-stat">
+            <span class="info-stat__label">Servicio</span>
+            <span class="info-stat__val" id="infoServicio"></span>
+          </div>
+          <div class="info-stat">
+            <span class="info-stat__label">Bus Placa</span>
+            <span class="info-stat__val" id="infoPlaca"></span>
+          </div>
+          <div class="info-stat">
+            <span class="info-stat__label">Precio 1er Piso</span>
+            <span class="info-stat__val" id="infoPrecio1"></span>
+          </div>
+          <div class="info-stat">
+            <span class="info-stat__label">Precio 2do Piso</span>
+            <span class="info-stat__val" id="infoPrecio2"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FILTRO POR DESTINO -->
+    <div class="boletaje-filtro card">
+      <h3 class="boletaje-filtro__title">
+        <i class="ri-filter-3-line"></i> Filtro por Destino
+      </h3>
+      <div class="filtro-search-wrap">
+        <i class="ri-search-line filtro-search-icon"></i>
+        <input
+          type="text"
+          id="filtroDestino"
+          class="filtro-search-input"
+          placeholder="Filtrar por Destino..."
+        />
+        <button class="filtro-clear" id="filtroClear" title="Limpiar filtro">
+          <i class="ri-arrow-down-s-line"></i>
+        </button>
+      </div>
+      <ul class="filtro-list" id="filtroList">
+        <li class="filtro-item {{#unless destino}}filtro-item--active{{/unless}}"
+          data-destino="" onclick="seleccionarDestino('')">
+          Todos los destinos
+        </li>
+        {{#each destinos}}
+        <li class="filtro-item {{#if (eq ../destino destino)}}filtro-item--active{{/if}}"
+          data-destino="{{destino}}" onclick="seleccionarDestino('{{destino}}')">
+          {{destino}}
+        </li>
+        {{/each}}
+      </ul>
+    </div>
+
+  </div><!-- /boletaje-top -->
+
+  <!-- ── FILA 3: TABLA DE SALIDAS ───────────────────────── -->
+  <div class="card boletaje-tabla-card">
+    <div class="boletaje-tabla-header">
+      <h3 class="card__title">
+        <i class="ri-bus-2-line"></i> Detalles de Salida
+      </h3>
+      <span class="boletaje-fecha-badge">
+        <i class="ri-calendar-event-line"></i>
+        <span id="fechaBadge">{{fecha}}</span>
+      </span>
+    </div>
+
+    <div class="table-wrapper">
+      <table class="table boletaje-table" id="tablaBoletaje">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Servicio</th>
+            <th>1ra Salida Agencia</th>
+            <th>Hora</th>
+            <th>2da Salida Agencia</th>
+            <th>Hora</th>
+            <th>3ra Salida Agencia</th>
+            <th>Hora</th>
+            <th>Precio 1er Piso</th>
+            <th>Precio 2do</th>
+            <th>Bus Placa</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tablaCuerpo">
+          {{#if salidas.length}}
+            {{#each salidas}}
+            <tr class="boletaje-row" data-id="{{id}}"
+              data-servicio="{{servicio}}"
+              data-placa="{{bus_placa}}"
+              data-precio1="{{precio_1er_piso}}"
+              data-precio2="{{precio_2do}}"
+              data-destino="{{destino}}"
+              onclick="seleccionarFila(this)">
+              <td>{{fecha}}</td>
+              <td><span class="servicio-badge servicio-badge--{{servicioSlug servicio}}">{{servicio}}</span></td>
+              <td>{{agencia_1}}</td>
+              <td class="hora-cell">{{hora_salida1}}</td>
+              <td>{{agencia_2}}</td>
+              <td class="hora-cell">{{hora_salida2}}</td>
+              <td>{{agencia_3}}</td>
+              <td class="hora-cell">{{hora_salida3}}</td>
+              <td class="precio-cell">{{precio_1er_piso}}</td>
+              <td class="precio-cell">{{precio_2do}}</td>
+              <td><span class="placa-badge">{{bus_placa}}</span></td>
+              <td>
+                <div class="acciones-grupo">
+                  <button class="btn-accion btn-accion--edit" onclick="verDetalle('{{id}}', event)" title="Ver detalle">
+                    <i class="ri-eye-line"></i>
+                  </button>
+                  <button class="btn-accion btn-accion--warn" onclick="editarSalida('{{id}}', event)" title="Editar">
+                    <i class="ri-edit-line"></i>
+                  </button>
+                  <button class="btn-accion btn-accion--danger" onclick="eliminarSalida('{{id}}', event)" title="Eliminar">
+                    <i class="ri-delete-bin-line"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            {{/each}}
+          {{else}}
+            <tr>
+              <td colspan="12" class="table-empty">
+                <i class="ri-bus-line"></i>
+                <span>No hay salidas para la fecha y destino seleccionados</span>
+              </td>
+            </tr>
+          {{/if}}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Totales -->
+    <div class="boletaje-totales">
+      <span>Total salidas: <strong id="totalSalidas">{{salidas.length}}</strong></span>
+    </div>
+  </div>
+
+</div><!-- /boletaje-page -->
+
+<!-- Input oculto para manejar fecha y destino seleccionados -->
+<input type="hidden" id="fechaActual" value="{{fecha}}" />
+<input type="hidden" id="destinoActual" value="{{destino}}" />
+
+<script src="/js/boletaje.js"></script>
